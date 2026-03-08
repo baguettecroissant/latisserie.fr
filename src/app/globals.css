@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+@theme {
+  /* New Base Colors - Modern, Elegant, Contrast */
+  --color-brand-50: #fbfaf9;
+  --color-brand-100: #f4f0eb;
+  --color-brand-200: #e6dfd3;
+  --color-brand-300: #d4c8b6;
+  --color-brand-400: #bfae94;
+  --color-brand-500: #a89171;
+  --color-brand-600: #997c5e;
+  --color-brand-700: #80634d;
+  --color-brand-800: #6b5344;
+  --color-brand-900: #57453a;
+  --color-brand-950: #2e241e;
+
+  /* Accent Color - Vibrant Terracotta */
+  --color-accent-50: #fdf3ef;
+  --color-accent-100: #fae4da;
+  --color-accent-200: #f5cfbe;
+  --color-accent-300: #eeb197;
+  --color-accent-400: #e58b68;
+  --color-accent-500: #de6e41;
+  /* Primary CTA */
+  --color-accent-600: #d05429;
+  --color-accent-700: #ae4120;
+  --color-accent-800: #8c361e;
+  --color-accent-900: #712f1b;
+
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-playfair);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-brand-50 text-brand-900 font-sans antialiased selection:bg-accent-200 selection:text-brand-900;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-serif text-brand-950;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-white/70 backdrop-blur-xl border border-white/50 shadow-2xl;
+  }
+
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-md border border-brand-100/50 shadow-xl shadow-brand-900/5 hover:shadow-2xl hover:shadow-brand-900/10 transition-all duration-500;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-950 via-brand-700 to-accent-600;
+  }
+}
