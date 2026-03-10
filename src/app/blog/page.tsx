@@ -11,11 +11,21 @@ import { Suspense } from "react";
 function BlogGrid() {
     const searchParams = useSearchParams();
     const categoryQuery = searchParams.get('category');
+    const pageQuery = searchParams.get('page');
+    const currentPage = Math.max(1, parseInt(pageQuery || '1', 10) || 1);
+    const ARTICLES_PER_PAGE = 12;
+
+    // Sort all articles by date descending (newest first)
+    const sortedArticles = [...articles].sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 
     // Filter articles if a category is provided
-    const displayArticles = categoryQuery
-        ? articles.filter(a => a.category.toLowerCase() === categoryQuery.toLowerCase())
-        : articles;
+    const filteredArticles = categoryQuery
+        ? sortedArticles.filter(a => a.category.toLowerCase() === categoryQuery.toLowerCase())
+        : sortedArticles;
+
+    const totalPages = Math.ceil(filteredArticles.length / ARTICLES_PER_PAGE);
+    const startIndex = (currentPage - 1) * ARTICLES_PER_PAGE;
+    const displayArticles = filteredArticles.slice(startIndex, startIndex + ARTICLES_PER_PAGE);
 
     const categories = ['Tout', 'Couture', 'Tissage', 'Matériel', 'DIY'];
 
@@ -134,6 +144,27 @@ function BlogGrid() {
                     </div>
                 )}
             </section>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+                <section className="container mx-auto px-4 mt-16 flex justify-center relative z-10">
+                    <div className="flex items-center gap-2">
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => {
+                            const href = categoryQuery ? `/blog?category=${categoryQuery}&page=${page}` : `/blog?page=${page}`;
+                            const isCurrent = page === currentPage;
+                            return (
+                                <Link
+                                    key={page}
+                                    href={href}
+                                    className={`w-10 h-10 flex items-center justify-center rounded-full text-sm font-semibold transition-all duration-300 ${isCurrent ? 'bg-brand-900 text-white shadow-md' : 'bg-white/80 backdrop-blur-sm text-brand-700 hover:bg-white hover:text-brand-900 hover:-translate-y-1 hover:shadow-lg border border-brand-200'}`}
+                                >
+                                    {page}
+                                </Link>
+                            );
+                        })}
+                    </div>
+                </section>
+            )}
         </>
     );
 }
