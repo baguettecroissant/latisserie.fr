@@ -72,6 +72,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className={`${inter.variable} ${playfair.variable}`}>
+      <head>
+        <script defer src="https://nhmvgsrwhjsjnpncpiaj.supabase.co/functions/v1/analytics-collect?script=1"></script>
+      </head>
       <body className="flex min-h-screen flex-col">
         <header className="sticky top-0 z-50 w-full border-b border-brand-200 bg-brand-50/80 backdrop-blur-md">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
